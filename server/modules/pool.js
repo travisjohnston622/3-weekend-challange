@@ -13,7 +13,7 @@ pool.on('connect', () => {
 });
 
 pool.on('error', (error) => {
-    console.logb(`DANGER! ${error}`);
+    console.log(`DANGER! ${error}`);
 });
 
 module.exports = pool;

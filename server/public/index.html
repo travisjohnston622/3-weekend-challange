@@ -4,9 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>To-Do-List</title>
+    <script src="vendors/jquery.js" charset="utf-8"></script>
+    <script src="scripts/client.js" charset="utf-8"></script>
+    <!-- <link rel="stylesheet" href="public/styles.css"> -->
 </head>
 <body>
-    
+    <section id="addTask">
+    <h2>Add Task</h2>
+    <form id="js-input">
+        <input type="text" id="taskIn" value="" placeholder="Task">
+        <input type="text" id="dateIn" value="" placeholder="Date">
+        <input type="text" id="notesIn" value="" placeholder="Notes">
+        <input type="text" id="completedIn" value="" placeholder="Completed">
+        <button id="addButton">Add Task</button>
+    </form>
+    </section>
+    <section>
+        <h2>All Tasks</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Date</th>
+                    <th>Notes</th>
+                    <th>Completed</th>
+                </tr>
+            </thead>
+            <tbody id="viewTasks">
+            </tbody>
+        </table>
+    </section>
 </body>
 </html>

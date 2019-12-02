@@ -15,10 +15,10 @@ router.get('/', (req, res) => {
 
 //POST route
 router.post('/', (req, res) => {
-    const newTask = req.body;
-    console.log(newTask);
-    const queryString = `INSERT INTO "tasks" ("name", "date", "notes", "completed") VALUES
-    ('${newTask.name}', '${newTask.date}', '${newTask.notes}', '${newTask.completed},');`;
+    const newTasks = req.body;
+    console.log(newTasks);
+    const queryString = `INSERT INTO "tasks" ("task", "date", "notes", "completed") VALUES
+    ('${newTasks.task}', '${newTasks.date}', '${newTasks.notes}', '${newTasks.completed},');`;
 
     pool.query(queryString)
         .then((response) => {
@@ -32,8 +32,8 @@ router.post('/', (req, res) => {
 //DELETE route
 router.delete('/:id', (req, res) => {
     console.log(req.params.id);
-    const taskId = req.params.id;
-    const queryString = `DELETE FROM "tasks" WHERE "id" = ${taskId};`;
+    const tasksId = req.params.id;
+    const queryString = `DELETE FROM "tasks" WHERE "id" = ${tasksId};`;
 
     pool.query(queryString)
         .then((response) => {
@@ -48,7 +48,7 @@ router.delete('/:id', (req, res) => {
 //PUT(update) route
     router.put('/:id', (req, res) => {
         const id = req.params.id;
-        const complete = req.body.complete;
+        const completed = req.body.completed;
        
         let queryString = `UPDATE "tasks" SET "completed"='${completed}' WHERE "id" = $1;`;
         console.log(queryString);
