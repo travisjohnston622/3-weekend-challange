@@ -49,7 +49,6 @@ function getTasks() {
             console.warn(err);
         })
         
-        render();
 }
 
 function putTasks(completed, id) {
@@ -82,9 +81,13 @@ function completedSwitch() {
     } else {
         val = 'yes';
     }
+    addClass();
     putTasks(val, id);
-    render();
 }
+
+function addClass () {
+    $(this).parent().addClass('green');
+};
 
 function render(response) {
     $('#viewTasks').empty();
