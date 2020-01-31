@@ -2,22 +2,46 @@ $(document).ready(init);
 
 function init() {
     console.log('JQ');
-    $('#addButton').on('submit', onSubmitForm);
+    $('#js-input').on('submit', onSubmitForm);
     $('#viewTasks').on('click', '.js-completed-btn', completedSwitch);
+    $('#viewTasks').on('click', '.js-delete-btn', onTaskDelete);
     getTasks();
 }
 
 function onSubmitForm(event) {
-    event.preventDefault();
-
+    console.log('onSubmitForm')
     const newTasks = {
-        task: $('#taskIn').val(),
-        date: $('#dateIn').val(),
-        notes: $('#notesIn').val(),
-        completed: $('#completedIn').val(),
+        task: $('.taskIn').val(),
+        date: $('.dateIn').val(),
+        notes: $('.notesIn').val(),
+        completed: $('.completedIn').val()
     };
+    $('.taskIn').val('');
+    $('.dateIn').val('');
+    $('.notesIn').val('');
+    $('.completedIn').val('');
 
     postTasks(newTasks);
+}
+
+function onTaskDelete(event) {
+    const taskId = $(this).data('id');
+
+    deleteTask(taskId);
+}
+
+function completedSwitch(event) {
+    const taskId = event.target.dataset.id;
+    let completeStatus = event.target.dataset.status;
+    console.log('completeStatus:', completeStatus);
+
+    if (completeStatus == 'true') {
+        completeStatus = 'false';
+    } else {
+        completeStatus = 'true';
+    }
+    putTasks(taskId, completeStatus);
+    addClass();
 }
 
 function postTasks(newTasks) {
@@ -26,11 +50,11 @@ function postTasks(newTasks) {
         url: '/api/tasks',
         data: newTasks,
     })
-        .then((response) => {
+        .then(function (response)  {
             console.log('POST Tasks');
             getTasks();
         })
-        .catch((err) => {
+        .catch(function (err)  {
             console.warn(err);
         })
 
@@ -41,71 +65,80 @@ function getTasks() {
         method: 'GET',
         url: '/api/tasks',
     })
-        .then((response) => {
+        .then(function (response)  {
             console.log('GET!');
             render(response);
         })
-        .catch((err) => {
+        .catch(function (err)  {
             console.warn(err);
         })
-        
+
 }
 
-function putTasks(completed, id) {
-    console.log(completed);
+function putTasks(isComplete, id) {
+    console.log('putTasks - id, isComplete:', id, isComplete);
     $.ajax({
         method: 'PUT',
-        url: '/api/tasks/' + id,
+        url: `/api/tasks/${id}`,
         data: {
-            completed: completed
+            completed: isComplete
         }
     })
-        .then((response) => {
+        .then(function (response) {
             console.log('PUT tasks!');
             getTask();
         })
-        .catch((err) => {
+        .catch(function (err) {
             console.warn(err);
         })
 
 }
 
-function completedSwitch() {
-    let id = $(this).data('id');
-    let val = true;
-    const comp = $(this).data('comp');
-    console.log(comp);
-
-    if (comp == 'yes') {
-        val = 'no';
-    } else {
-        val = 'yes';
-    }
-    addClass();
-    putTasks(val, id);
+function deleteTask(id) {
+    $.ajax({
+        method: 'DELETE',
+        url: `/api/tasks/${id}`,
+    })
+        .then(function (response) {
+            getTasks();
+        })
+        .catch(function (err) {
+            console.warn(err);
+            alert('Something went wrong')
+        })
 }
 
-function addClass () {
+
+function addClass() {
     $(this).parent().addClass('green');
 };
 
-function render(response) {
-    $('#viewTasks').empty();
+function render(listOfTask) {
+    console.log(listOfTask)
+    const $taskElement = $('.js-viewTask')
 
-    for (let i = 0; i < response.length; i++) {
-        const tasks = response[i];
+    $taskElement.empty();
+    for (let i = 0; i < listOfTask.length; i++) {
+        const tasks = listOfTask[i];
+        let completeStatus = `complete`;
+        let completeBtn = 'INCOMPLETE';
 
-        $('#viewTasks').append(`
+        if (!tasks.complete) {
+            completeStatus = 'NOT complete';
+            completeBtn = 'COMPLETE'
+        }
+
+        $taskElement.append(`
     <tr>
       <td>${tasks.task}</td>
       <td>${tasks.date}</td>
       <td>${tasks.notes}</td>
       <td>${tasks.completed}</td>
-      <td><button class='js-completed-btn' data-comp="${tasks.completed}" data-id=${tasks.id}>Task Completed</button></td>
+      <td><button class="js-btn-delete" data-id="${tasks.id}">DELETE</button></td>
+      <td><button class='js-completed-btn' data-id="${tasks.id}" data-status=${tasks.complete}>${completeBtn}</button></td>
     </tr>
   `)
 
     }
 }
-        
-        
+

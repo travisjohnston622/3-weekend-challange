@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,18 +8,19 @@
     <title>To-Do-List</title>
     <script src="vendors/jquery.js" charset="utf-8"></script>
     <script src="scripts/client.js" charset="utf-8"></script>
-    <link rel="stylesheet" href="public/styles.css">
+    <!-- <link rel="stylesheet" href="public/styles.css"> -->
 </head>
+
 <body>
     <section id="addTask">
-    <h2>Add Task</h2>
-    <form id="js-input">
-        <input type="text" id="taskIn" value="" placeholder="Task">
-        <input type="text" id="dateIn" value="" placeholder="Date">
-        <input type="text" id="notesIn" value="" placeholder="Notes">
-        <input type="text" id="completedIn" value="" placeholder="Completed">
-        <button id="addButton">Add Task</button>
-    </form>
+        <h2>Add Task</h2>
+        <form id="js-input">
+            <input type="text" id="taskIn" placeholder="Task">
+            <input type="text" id="dateIn" placeholder="Date">
+            <input type="text" id="notesIn" placeholder="Notes">
+            <input type="text" id="completedIn" placeholder="Completed">
+            <button id="addButton">Add Task</button>
+        </form>
     </section>
     <section>
         <h2>All Tasks</h2>
@@ -36,4 +38,5 @@
         </table>
     </section>
 </body>
+
 </html>
